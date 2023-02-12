@@ -35,11 +35,18 @@ export default styles = StyleSheet.create({
     },
     gameText: {
       fontSize: 20,
-      marginTop: 20,
-      marginBottom: 20,
-      flex: 1,
     },
     gameTop: {
       flex: 1,
-    }
+    },
+    gameTitle: {
+      fontSize: 40,
+      fontWeight: "bold",
+    },
+    gameButtonContainer: {
+      marginTop: 10,
+      flex: 1,
+      width: 200,
+    },
+
   });

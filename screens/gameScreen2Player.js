@@ -61,22 +61,39 @@ export default function GameScreen2Player() {
     winner = winner == ''? (xWins == 3 ? 'X' : oWins == 3 ? 'O' : '') : winner;
     xWins = 0;
     oWins = 0;
-    console.log("winner"+winner);
+    //console.log("winner"+winner);
     }
     //console.log("winner"+winner);
-    setSubText(winner == 'X' ? 'Player 1 wins' : winner == 'O' ? 'Player 2 wins' : !player1Turn ? 'Player 1 turn' : 'Player 2 turn');
+    setSubText(winner == 'X' ? '🎉Player 1 wins🎉' : winner == 'O' ? '🎉Player 2 wins🎉' : !player1Turn ? 'Player 1 turn' : 'Player 2 turn');
     setWinner(winner);
     setBoard([...board]);
   }
   }
   
+
+  const resetHandler = () => {
+    setBoard([
+      {key : 0, value : '', picture : 0},
+      {key : 1, value : '', picture : 0},
+      {key : 2, value : '', picture : 0},
+      {key : 3, value : '', picture : 0},
+      {key : 4, value : '', picture : 0},
+      {key : 5, value : '', picture : 0},
+      {key : 6, value : '', picture : 0},
+      {key : 7, value : '', picture : 0},
+      {key : 8, value : '', picture : 0}
+    ]);
+    setTurn(true);
+    setWinner('');
+    setSubText('Player 1 turn');
+  }
   
     return (
     
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <View style={styles.gameTop}></View>
-        <Text>Tic Tac Toe</Text>
-        <Text>{subText}</Text>
+        <Text style={styles.gameTitle}>Tic Tac Toe</Text>
+        <Text style={styles.gameText}>{subText}</Text>
         <View style={styles.board}>
         <FlatList
         numColumns={3}
@@ -89,6 +106,9 @@ export default function GameScreen2Player() {
         )}
       />
       </View>
+      <View style={styles.gameButtonContainer}>
+          <Button title='Reset' onPress={resetHandler} />
+        </View>
       </View>
   
   
