@@ -22,4 +22,4 @@ export default function App() {
   );
 }
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator(); 

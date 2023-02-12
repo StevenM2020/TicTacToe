@@ -22,7 +22,8 @@ export default function GameScreen2Player() {
   
     const [player1Turn, setTurn] = useState(true);
     const [gameWinner, setWinner] = useState('');
-  
+    const [subText, setSubText] = useState('Player 1 turn');
+
   const press2PlayerHandler = (key) => {
   if(gameWinner == ''){
     if(board[key].picture == 0){
@@ -40,7 +41,7 @@ export default function GameScreen2Player() {
       //console.log("button:"+key+" already changed to picture "+board[key].picture+"");
     }
   
-    let winner = '1';
+    let winner = '';
     for(let i = 0; i < win.length; i++){
       let xWins = 0;
       let oWins = 0;
@@ -57,12 +58,14 @@ export default function GameScreen2Player() {
     }
   
   
-    winner = xWins == 3 ? 'X' : oWins == 3 ? 'O' : '1';
+    winner = winner == ''? (xWins == 3 ? 'X' : oWins == 3 ? 'O' : '') : winner;
     xWins = 0;
     oWins = 0;
     console.log("winner"+winner);
     }
     //console.log("winner"+winner);
+    setSubText(winner == 'X' ? 'Player 1 wins' : winner == 'O' ? 'Player 2 wins' : !player1Turn ? 'Player 1 turn' : 'Player 2 turn');
+    setWinner(winner);
     setBoard([...board]);
   }
   }
@@ -72,8 +75,8 @@ export default function GameScreen2Player() {
     
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <View style={styles.gameTop}></View>
-        <Text>Game Screen</Text>
-        <Text>2 player</Text>
+        <Text>Tic Tac Toe</Text>
+        <Text>{subText}</Text>
         <View style={styles.board}>
         <FlatList
         numColumns={3}
