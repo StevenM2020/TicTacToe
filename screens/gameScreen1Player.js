@@ -11,7 +11,7 @@ import { win, images} from '../constants';
 
 export default function GameScreen1Player() {
   const [board, setBoard] = useState([
-    {key : 0, value : '', picture : 0},
+    {key : 0, value : 'X', picture : 1},
     {key : 1, value : '', picture : 0},
     {key : 2, value : '', picture : 0},
     {key : 3, value : '', picture : 0},
@@ -22,7 +22,7 @@ export default function GameScreen1Player() {
     {key : 8, value : '', picture : 0}
   ]);
 
-  const [player1Turn, setTurn] = useState(true);
+  const [player1Turn, setTurn] = useState(false);
   const [gameWinner, setWinner] = useState('');
   const [subText, setSubText] = useState('Player 1 turn');
 
@@ -38,9 +38,7 @@ if(gameWinner == ''){
     board[key].value = 'O';
     setTurn(true);
   }
-//console.log("button:"+key+" changed to picture "+board[key].picture);
   }else{
-    //console.log("button:"+key+" already changed to picture "+board[key].picture+"");
   }
 
   let winner = '';
@@ -48,14 +46,11 @@ if(gameWinner == ''){
     let xWins = 0;
     let oWins = 0;
     for(let j = 0; j < win[i].length; j++){
-      //console.log(board[win[i][j]].value);
       if(board[win[i][j]].value == 'X'){
         xWins++;
-        //console.log(board[win[i][j]].value + "at "+win[i][j]+"");
       }
       if(board[win[i][j]].value == 'O'){
         oWins++;
-        //console.log(board[win[i][j]].value + "at "+win[i][j]+"");
       }
   }
 
@@ -63,9 +58,7 @@ if(gameWinner == ''){
   winner = winner == ''? (xWins == 3 ? 'X' : oWins == 3 ? 'O' : '') : winner;
   xWins = 0;
   oWins = 0;
-  //console.log("winner"+winner);
   }
-  //console.log("winner"+winner);
   setSubText(winner == 'X' ? '🎉Player 1 wins🎉' : winner == 'O' ? '🎉Player 2 wins🎉' : !player1Turn ? 'Player 1 turn' : 'Player 2 turn');
   setWinner(winner);
   setBoard([...board]);
@@ -90,6 +83,73 @@ const resetHandler = () => {
   setSubText('Player 1 turn');
 }
 
+function aiMove(){
+  console.log("ai move");
+  let moves = [];
+  for(let i = 0; i < board.length; i++){
+    if(board[i].value == ''){
+      let boardCopy =[];
+      for(let j = 0; j < board.length; j++){
+        boardCopy.push({key : j, value : board[j].value, picture : board[j].picture});
+      }
+
+      boardCopy[i].value = 'X';
+      moves.push({key:board[i].key, score: minimax(boardCopy, 0, true)});
+    }
+  }
+    moves.forEach(move => {
+      console.log(move.key + " " + move.score);
+    });
+    console.log(board);
+}
+function minimax(newBoard, score, turn){
+  let winner = '';
+  for(let i = 0; i < win.length; i++){
+    let xWins = 0;
+    let oWins = 0;
+    for(let j = 0; j < win[i].length; j++){
+      if(newBoard[win[i][j]].value == 'X'){
+        xWins++;
+      }
+      if(newBoard[win[i][j]].value == 'O'){
+        oWins++;
+      }
+  }
+
+
+  winner = winner == ''? (xWins == 3 ? 'X' : oWins == 3 ? 'O' : '') : winner;
+  xWins = 0;
+  oWins = 0;
+  }
+
+  if(winner == 'X'){
+    return 1;
+  }else if(winner == 'O'){
+    return -1;
+  }
+  // check if the board is full
+  let full = true;
+  for(let i = 0; i < newBoard.length; i++){
+    if(newBoard[i].value == ''){
+      full = false;
+    }
+  }
+  if(full){
+  return 0;
+  }
+  
+  for(let i = 0; i < newBoard.length; i++){
+    if(newBoard[i].value == ''){
+      let boardCopy = newBoard;
+      boardCopy[i].value = turn ? 'X' : 'O';
+      score += minimax(boardCopy, score, !turn);
+    }
+  }
+  return score;
+
+  
+  }
+
   return (
   
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -109,7 +169,7 @@ const resetHandler = () => {
     />
     </View>
     <View style={styles.gameButtonContainer}>
-        <Button title='Reset' onPress={resetHandler} />
+        <Button title='Reset' onPress={aiMove} />
       </View>
     </View>
 

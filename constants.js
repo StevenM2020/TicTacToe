@@ -10,4 +10,3 @@ export const images = {
     5: require('./assets/O2.png'),
     6: require('./assets/O3.png')
   }
-  
