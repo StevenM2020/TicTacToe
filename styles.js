@@ -13,7 +13,8 @@ export default styles = StyleSheet.create({
       justifyContent: 'center',
     },
     buttonContainer: {
-      marginTop: 20
+      marginTop: 20,
+      width: 200,
     },
     titleText: {
       fontSize: 30,

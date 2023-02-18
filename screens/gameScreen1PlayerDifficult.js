@@ -13,7 +13,7 @@ import { win, images} from '../constants';
 
 
 
-export default function GameScreen1Player() {
+export default function GameScreen1PlayerDifficult() {
   const [board, setBoard] = useState([
     {key : 0, value : 'X', picture : 1},
     {key : 1, value : '', picture : 0},
@@ -26,27 +26,26 @@ export default function GameScreen1Player() {
     {key : 8, value : '', picture : 0}
   ]);
 
-  const [player1Turn, setTurn] = useState(true);
+  const [player1Turn, setTurn] = useState(false);
   const [gameWinner, setWinner] = useState('');
   const [subText, setSubText] = useState('Player 1 turn');
 
-// called when the player presses a square
+
 const pressPlayerHandler = (key) => {
-if(gameWinner == ''){ // if there is no winner
+if(gameWinner == ''){
   if(board[key].picture == 0){
     board[key].picture = Math.floor(Math.random() * 3) + 4;
     board[key].value = 'O';
-
+  }
+}
 checkGame();
-// if there is no winner, the ai will make a move
 if(gameWinner == ''){
   aiMove();
 }
 setBoard([...board]);
-  }}
 }
 
-// this function will check if there is a winner
+
 function checkGame(){
   let winner = '';
   for(let i = 0; i < win.length; i++){
@@ -61,26 +60,13 @@ function checkGame(){
       }
   }
 
-  // if there is a winner, the winner will be set to the winner
+
   winner = winner == ''? (xWins == 3 ? 'X' : oWins == 3 ? 'O' : '') : winner;
   xWins = 0;
   oWins = 0;
   }
-
-      // check if all the buttons have been pressed
-      let spotsFilled = 0;
-      board.forEach((item) => {
-        if(item.picture != 0){
-          spotsFilled++;
-        }
-      });
-  
-      setSubText(winner == 'X' ? '🎉Player 1 wins🎉' : winner == 'O' ? '🎉Player 2 wins🎉' : !player1Turn ? 'Player 1 turn' : 'Player 2 turn');
-      if(spotsFilled == 9 && winner == ''){
-        winner = 'tie';
-        setSubText('Tie Game');
-      }
-      setWinner(winner);
+  setSubText(winner == 'X' ? 'You Lost' : winner == 'O' ? '🎉You win🎉' : !player1Turn ? 'AI turn' : 'Your turn');
+  setWinner(winner);
 }
 const resetHandler = () => {
   setBoard([
@@ -98,12 +84,10 @@ const resetHandler = () => {
   setSubText('Player 1 turn');
 }
 
-// this function will make the ai move
 function aiMove(){
   if(gameWinner == ''){
   console.log("ai move");
   let moves = [];
-  // for each empty square, the ai will make a move and check the score
   for(let i = 0; i < board.length; i++){
     if(board[i].value == ''){
       let boardCopy =[];
@@ -118,17 +102,15 @@ function aiMove(){
     moves.forEach(move => {
       console.log(move.key + " " + move.score);
     });
-    let bestMove = Array.from(moves).sort((a, b) => b.score - a.score)[moves.length - 1];
+    let bestMove = Array.from(moves).sort((a, b) => b.score - a.score)[0];
+    //press2PlayerHandler(bestMove.key);
     board[bestMove.key].value = 'X';
     board[bestMove.key].picture = Math.floor(Math.random() * 3) + 1;
     console.log(bestMove);
     console.log(board);
   }
-  checkGame();
 }
-// this function will check each possible move and return the score
 function minimax(newBoard, score, turn){
-  // check if there is a winner
   let winner = '';
   for(let i = 0; i < win.length; i++){
     let xWins = 0;
@@ -142,13 +124,12 @@ function minimax(newBoard, score, turn){
       }
   }
 
-  // if there is a winner, the winner will be set to the winner
+
   winner = winner == ''? (xWins == 3 ? 'X' : oWins == 3 ? 'O' : '') : winner;
   xWins = 0;
   oWins = 0;
   }
 
-  // if there is a winner, return the score
   if(winner == 'X'){
     return 1;
   }else if(winner == 'O'){
@@ -165,7 +146,6 @@ function minimax(newBoard, score, turn){
   return 0;
   }
   
-  // if there is no winner, check each possible move
   for(let i = 0; i < newBoard.length; i++){
     if(newBoard[i].value == ''){
       let boardCopy = newBoard;
@@ -174,7 +154,10 @@ function minimax(newBoard, score, turn){
     }
   }
   return score;
+
+  
   }
+
 
 
   return (
