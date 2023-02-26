@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation }) {
     return (
       <View style={styles.container}>
         <Text style={styles.titleText}>Tic Tac Toe</Text>
-        <Text>By Steven Motz</Text>
+        <Text>By Steven Motz and Hunter Hockman</Text>
         <View style={styles.buttonContainer}>
           <Button title='2 Player' onPress={() => navigation.navigate('2Player')} />
         </View>
