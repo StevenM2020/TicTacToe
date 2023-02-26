@@ -245,11 +245,6 @@ export default function GameScreen1DifficultPlayer() {
           console.log("No Works");
           break;
       }
-
-      for (let i = 0; i < board.length; i++) {
-        console.log(board[i]);
-      }
-    }
     checkDifficultGame();
   }
 
