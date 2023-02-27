@@ -13,8 +13,6 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import styles from "../styles";
 import { win, images } from "../constants";
@@ -246,7 +244,7 @@ export default function GameScreen1DifficultPlayer() {
           break;
       }
     checkDifficultGame();
-  }
+    }}
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
